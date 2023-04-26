@@ -36,6 +36,7 @@ $queryCreateDB="CREATE DATABASE $db_name";
 $result=mysqli_query($mysqliConn, $queryCreateDB);
 if($result) {
 	printf("Database %s creato\n",$db_name);
+	echo "<hr />";
 }
 else {	
 	printf("Impossibile creare il database %s\n",$db_name);
@@ -68,6 +69,7 @@ echo "<p>$queryCreateTable</p>";
 //Controllo esito queryCreateTable
 if($result=mysqli_query($mysqliConn,$queryCreateTable)){
 	printf("OK, tabella autore creata correttamente!\n");
+	echo "<hr />";
 }
 else{
 	printf("ERRORE, la tabella autore non è stata creata\n");
@@ -78,7 +80,7 @@ else{
 $queryCreateTable="CREATE TABLE IF NOT EXISTS $tab_libro 
 				  (id INT NOT NULL AUTO_INCREMENT,
 				   titolo VARCHAR (70) NOT NULL,
-				   isbn INT (13) NOT NULL,
+				   isbn BIGINT (13) NOT NULL,
 				   anno_pub INT (4) NOT NULL,
 				   trama VARCHAR(5000),
 				   id_autore INT NOT NULL,
@@ -90,6 +92,7 @@ echo "<p>$queryCreateTable</p>";
 //Controllo esito queryCreateTable
 if($result=mysqli_query($mysqliConn,$queryCreateTable)){
 	printf("OK, tabella libro creata correttamente!\n");
+	echo "<hr />";
 }
 else{
 	printf("ERRORE, la tabella libro non è stata creata\n");
@@ -109,6 +112,7 @@ echo "<p>$queryCreateTable</p>";
 //Controllo esito queryCreateTable
 if($result=mysqli_query($mysqliConn,$queryCreateTable)){
 	printf("OK, tabella user creata correttamente!\n");
+	echo "<hr />";
 }
 else{
 	printf("ERRORE, la tabella user non è stata creata\n");
@@ -129,6 +133,7 @@ echo "<p>$queryCreateTable</p>";
 //Controllo esito queryCreateTable
 if($result=mysqli_query($mysqliConn,$queryCreateTable)){
 	printf("OK, tabella acquisti creata correttamente!\n");
+	echo "<hr />";
 }
 else{
 	printf("ERRORE, la tabella acquisti non è stata creata\n");
@@ -170,6 +175,7 @@ if($result=mysqli_query($mysqliConn,$queryInsert)){
 	echo "</tr>";
 	}
 	echo "</table>";
+	echo "<hr />";
 }
 else{
 	printf("ERRORE, la tabella autore non è stata popolata\n");
@@ -178,15 +184,15 @@ else{
 
 //POPOLAMENTO TABELLA LIBRO		 
 $queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, id_autore) VALUES
-			 (\"Un letto di leoni\", 9788804679059, 1986, \"Medio Oriente, 1981. 
+			 (\"Un letto di leoni\", \"9788804679059\", \"1986\", \"Medio Oriente, 1981. 
 			  Tra i monti dell'Afghanistan si trova la Valle dei Cinque Leoni, 
 			  un luogo di antiche leggende ora rifugio di Masud e dei suoi 
 			  guerriglieri che combattono gli invasori sovietici. È qui che 
 			  trovano compimento i destini incrociati di tre personaggi: un 
 			  americano e un francese che al tempo della Guerra fredda hanno 
 			  combattuto su opposti fronti, e Jane, la donna che li unisce e 
-			  li divide.\", 1),
-			  (\"Mille splendidi soli\", 9788868367312, 2007, \"Mariam vorrebbe 
+			  li divide.\", \"1\"),
+			  (\"Mille splendidi soli\",\"9788868367312\", \"2007\", \"Mariam vorrebbe 
 			  avere le ali per raggiungere la casa del padre, dove lui non la 
 			  porterà mai perché Mariam è una harami, una bastarda, e sarebbe 
 			  un'umiliazione per le sue tre mogli e i dieci figli legittimi 
@@ -196,8 +202,8 @@ $queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, id_autore) 
 			  notte della rivoluzione, nell'aprile del 1978. Aveva solo due 
 			  anni quando i suoi fratelli si sono arruolati nella jihad. 
 			  Mariam e Laila non potrebbero essere più diverse, ma la guerra 
-			  le farà incontrare in modo imprevedibile.\", 2),
-			 (\"Shogun\", 9788845297588, 1975, \"Partito alla volta dell'Oriente 
+			  le farà incontrare in modo imprevedibile.\", \"2\"),
+			 (\"Shogun\", \"9788845297588\", \"1975\", \"Partito alla volta dell'Oriente 
 			 per il monopolio olandese del commercio con Cina e Giappone, 
 			 John Blackthorne, comandante dell'Erasmus, si ritrova costretto 
 			 da una tremenda tempesta al naufragio in un villaggio di pescatori 
@@ -205,8 +211,8 @@ $queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, id_autore) 
 			 Blackthorne deve trovare il modo di sopravvivere. Grazie al suo coraggio, 
 			 che lo condurrà sulla via dei samurai, con il soprannome di Anjin (il navigatore) 
 			 diventerà il fido aiutante dello Shogun e nella sua ascesa al potere conoscerà 
-			 l'amore impossibile per la bella e ambigua Mariko.\", 3),
-			 (\"Hannibal\", 9788804444466, 1999, \"Clarice Starling, 7 anni dopo la vicenda 
+			 l'amore impossibile per la bella e ambigua Mariko.\", \"3\"),
+			 (\"Hannibal\", \"9788804444466\", \"1999\", \"Clarice Starling, 7 anni dopo la vicenda 
 			 Lecter (Silenzio degli innocenti), viene messa sotto accusa dagli organi interni 
 			 dell'FBI per un intervento troppo energico durante una sparatoria. In questo 
 			 delicato frangente riceve un messaggio da parte del latitante Lecter, che la 
@@ -214,8 +220,8 @@ $queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, id_autore) 
 			 a Firenze. E' ricercato dall'FBI ma soprattutto da una delle sue vittime, 
 			 il sadico Mason Vergier, costretto da anni su un letto e orrendamente sfigurato 
 			 da Lecter stesso. Turbata dal richiamo di Lecter, Clarice decide di salvarlo dalla 
-			 terribile morte a cui Lecter pare essere predestinato.\", 4),
-			  (\"Per niente al mondo\", 9788804747529, 2021, \"Nel cuore rovente del deserto del 
+			 terribile morte a cui Lecter pare essere predestinato.\", \"4\"),
+			  (\"Per niente al mondo\", \"9788804747529\", \"2021\", \"Nel cuore rovente del deserto del 
 			  Sahara, due giovani e intraprendenti agenti segreti – l’americana Tamara Levit e il 
 			  francese Tab Sadoul – sono sulle tracce di un pericoloso gruppo di terroristi islamici, 
 			  mettendo così a rischio la loro vita. Quando si innamorano, le loro carriere arrivano 
@@ -230,7 +236,7 @@ $queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, id_autore) 
 			  prima donna presidente degli Stati Uniti, deve gestire i rapporti sempre più tesi con i suoi 
 			  oppositori, mentre l’intero pianeta è scosso da un vortice di ostilità politiche, attacchi 
 			  terroristici e dure rappresaglie. La presidente farà tutto il possibile per evitare lo scoppio
-			  di una guerra non necessaria.\", 1);";
+			  di una guerra non necessaria.\", \"1\");";
 			 
 //Controllo esito queryInsert
 if($result=mysqli_query($mysqliConn,$queryInsert)){
@@ -257,6 +263,7 @@ if($result=mysqli_query($mysqliConn,$queryInsert)){
 	echo "</tr>";
 	}
 	echo "</table>";
+	echo "<hr />";
 }
 else{
 	printf("ERRORE, la tabella libro non è stata popolata\n");
@@ -290,6 +297,7 @@ if($result=mysqli_query($mysqliConn,$queryInsert)){
 	echo "</tr>";
 	}
 	echo "</table>";
+	echo "<hr />";
 }
 else{
 	printf("ERRORE, la tabella user non è stata popolata\n");
