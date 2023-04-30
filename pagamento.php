@@ -7,7 +7,7 @@ session_start();
 
 if (!isset($_SESSION['accessopermesso'])) header('Location:login.php');
 
-if ((!isset($_SESSION['carrello']) && !$_POST) || isset($_POST['azzeraAcquisti'])) {
+if ((!isset($_SESSION['carrello']) && !$_POST) || isset($_POST['svuota'])) {
    $_SESSION['carrello']=array();
    $msg=1;
 } else {
