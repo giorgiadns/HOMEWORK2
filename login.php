@@ -67,7 +67,34 @@ if(isset($_POST['invio'])){
 	<div style="width:100%;padding:0px 0px 0px 0px;">
 	<a href="#" class="tooltip" style="width:25%;">
 	<button class="button" style="width:100%;border-right:2px solid red;">Operazioni possibili</button>
-	<span class="tooltiptext">Da aggiornare</span></a>
+	<span class="tooltiptext">Operazioni possbili, in base all'account usato:
+	<table>
+	<tr>
+		<th>TIPOLOGIA</th>
+		<th>OPERAZIONI POSSIBILI</th>
+	</tr>
+	<tr>
+		<td>utente</td>
+		<td>Visualizzare la lista dei libri disponibili,
+			aggiungere libri al carrello, 
+			pagare o svuotare il carrello, consultare gli acquisti (anche 
+			quelli non effettuati nella sessione corrente).</td>
+		
+	</tr>
+	<tr>
+		<td>admin</td>
+		<td>Visualizzare l'elenco degli utenti, 
+			bannare un utente, visualizzare il report del magazzino.</td>
+
+	</tr>
+	<tr>
+		<td>gestore</td>
+		<td>Aggiungere libri e autori al DB,
+			visualizzare gli acquisti effettuati dai clienti (utenti),
+			visualizzare il report del magazzino.</td>
+	
+	</tr>
+	</table></span></a>
 	<a href="#" class="tooltip" style="width:25%;">
 	<button class="button" style="width:100%;border-right:2px solid red;">Accounts</button>
 	<span class="tooltiptext">Gli account utilizzabili sono:
