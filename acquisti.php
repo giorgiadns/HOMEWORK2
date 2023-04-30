@@ -12,7 +12,8 @@ $querySelAcquisti="SELECT $tab_libro.titolo, $tab_libro.trama, $tab_libro.prezzo
 				   FROM $tab_user,$tab_libro,$tab_acquisti
 				   WHERE $tab_user.username=\"{$_SESSION['username']}\"
 				   AND $tab_user.id=$tab_acquisti.id_user
-				   AND $tab_acquisti.id_libro=$tab_libro.id;";
+				   AND $tab_acquisti.id_libro=$tab_libro.id
+				   ORDER BY $tab_acquisti.id DESC;";
 
 if(!$resultSelAcquisti=mysqli_query($mysqliConn,$querySelAcquisti)){
 	printf("ERRORE! Impossibile eseguire la querySelAcquisti\n");
@@ -28,7 +29,7 @@ if(!$resultSelAcquisti=mysqli_query($mysqliConn,$querySelAcquisti)){
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-	<title>Home</title>
+	<title>Acquisti</title>
 	<link rel="stylesheet" href="cssesterno.css" type="text/css" />
 </head>
 
