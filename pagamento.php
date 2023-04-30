@@ -92,8 +92,8 @@ if ((!isset($_SESSION['carrello']) && !$_POST) || isset($_POST['svuota'])) {
 		  echo "<h3 style='color:red;'>Il tuo carrello &egrave; vuoto!</h3>";
 	 }
 	 if($msg==2) {
-	 echo "<h3 style='color:red;'>Pagamento effettuato! Grazie!</h3>";
-	 echo "<h2 style='color:black;'>Puoi controllare i tuoi acquisti nella sezione 'Acquisti'</h2>";
+	 echo "<h3 style='color:red;'>Pagamento effettuato, grazie! <br>
+			Puoi controllare i tuoi acquisti nella sezione 'Acquisti'.</h3>";
 	 }
 	?>
 	</div>
