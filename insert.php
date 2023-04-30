@@ -64,7 +64,7 @@ if(isset($_POST['inserisci'])){
 					  ('{$_POST['nomeaut']}','{$_POST['cognomeaut']}','{$_POST['biog']}');";
 			
 			if(!$resultInsertAutore=mysqli_query($mysqliConn,$queryInsertAutore)){
-				echo "<h3 style='color:red;'>Impossibile inserire il libro!</h3>\n";
+				echo "<h3 style='color:red;'>Impossibile inserire l'autore!</h3>\n";
 				exit();
 			}
 			
@@ -78,11 +78,10 @@ if(isset($_POST['inserisci'])){
 			}
 		
 			$row2=mysqli_fetch_array($resultSelID);
-			$row2=mysqli_fetch_assoc($resultSelID);
 			$IDaut=$row2['id'];
 					
 			$queryInsertLibro="INSERT INTO $tab_libro (titolo,isbn,anno_pub,trama,prezzo,id_autore) VALUES
-					  ('{$_POST['titolo']}','{$_POST['isbn']}','{$_POST['anno']}','{$_POST['trama']}','{$_POST['prezzo']}'.'$IDaut');";
+					  ('{$_POST['titolo']}','{$_POST['isbn']}','{$_POST['anno']}','{$_POST['trama']}','{$_POST['prezzo']}','$IDaut');";
 					  
 			if(!$resultInsertLibro=mysqli_query($mysqliConn,$queryInsertLibro)){
 				echo "<h3>Impossibile inserire il libro!</h3>\n";
