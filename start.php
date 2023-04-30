@@ -23,6 +23,11 @@ if (!isset($_SESSION['accessopermesso'])){
 
 <body style="background-color:white;">
 
+	<div style="border-radius:10px;background-color:white;height:5%;width:100%;justify-content:center;padding:0px 0px 0px 0px;">
+	<img src="./immagini/carrello.png" width="1%"/>
+	<p style="color:red;font-size:13px;">&nbsp;Consegna gratuita in negozio</p>
+	</div>
+
 	<div style="border-radius:10px;background-image:url('./immagini/libreria.jpg');height:30%;width:100%;justify-content:left;padding-left:10px;background-size:100%;">
 		<p style="text-align:left;font-size:40px;font-family:georgia,serif;color:white;">
 		<img src="./immagini/logo.png" width="10%" align="left"/>
