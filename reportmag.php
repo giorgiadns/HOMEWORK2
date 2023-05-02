@@ -12,6 +12,15 @@ if ( !(isset($_SESSION['accessopermesso'])) || strcmp($_SESSION['tipologia'],"ut
 	
 }
 
+$querySel="SELECT titolo,isbn,anno_pub,trama,prezzo 
+		   FROM $tab_libro
+		   ORDER BY titolo;";
+
+if(!$resultSel=mysqli_query($mysqliConn,$querySel)){
+	printf("ERRORE! Impossibile eseguire la query\n");
+	exit();
+	}
+	
 ?>
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -43,20 +52,12 @@ if ( !(isset($_SESSION['accessopermesso'])) || strcmp($_SESSION['tipologia'],"ut
 	<a href="logout.php" style='width:50%;'>
 	<button class="button" style="width:100%;border-right:2px solid red;">Logout</button></a>
 	</div>
-	
-<?php
-
-$querySel="SELECT titolo,isbn,anno_pub,trama,prezzo FROM $tab_libro;";
-
-if(!$resultSel=mysqli_query($mysqliConn,$querySel)){
-	printf("ERRORE! Impossibile eseguire la query\n");
-	exit();
-	}
-	
-?>
 
 <div  style="width:100%;top:50%;border-radius:10px;background-image:url('./immagini/libreria.jpg');background-size:cover;align-items:center;padding-bottom:20%;">
 	<div style="width:98%;background-color:white;border-radius:15px;">
+	
+	<h2 style="color:red;">Report magazzino</h2>
+	
 	<!------REPORT MAGAZZINO-------->
 	<table style="width:95%;">
 	<tr class="tab">
