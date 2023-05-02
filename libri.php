@@ -5,21 +5,41 @@ require_once("./connect.php");
 
 session_start();
 
-$querySelLibri="SELECT * FROM $tab_libro,$tab_autore
-				WHERE $tab_libro.id_autore=$tab_autore.id
-				ORDER BY $tab_libro.titolo;";
+if (isset($_POST['ordinamento'])){
+	switch ($_POST['ordine']){
+    
+		case "titolo": $querySelLibri="SELECT * FROM $tab_libro,$tab_autore
+						WHERE $tab_libro.id_autore=$tab_autore.id
+						ORDER BY $tab_libro.titolo;";
+						break;
+	
+		case "autore": $querySelLibri="SELECT * FROM $tab_libro,$tab_autore
+						WHERE $tab_libro.id_autore=$tab_autore.id
+						ORDER BY $tab_autore.cognome;";
+						break;
+					
+	}
+} else {
+	$querySelLibri="SELECT * FROM $tab_libro,$tab_autore
+					WHERE $tab_libro.id_autore=$tab_autore.id
+					ORDER BY $tab_libro.titolo;";
+				
+}
 
 if(!$resultSelLibri=mysqli_query($mysqliConn,$querySelLibri)){
 	echo "<h3 style='color:red;'>ERRORE! Non &egrave; stato possibile eseguire la querySel.</h3>\n";
 	exit();
 }
+
 if ((!isset($_SESSION['carrello']) && !$_POST)) {
    $_SESSION['carrello']=array();
    echo "<h3 style='color:red;';>Il carrello &egrave; vuoto </h3>";
 } else {
-   if ( isset($_POST['selezione']) ) {
-     $_SESSION['carrello'][] = $_POST['selezione'];
-	  echo "<h3 style='color:red;';>Elementi aggiunti al carrello!</h3>";
+   if ( isset($_POST['selezione']) && isset($_POST['aggiungi']) ) {
+	  foreach($_POST['selezione'] as $k=>$v) {
+     $_SESSION['carrello'][$k] = $_POST['selezione'][$k];
+	  }
+	 echo "<h3 style='color:red;';>Elementi aggiunti al carrello!</h3>";
    }
   
 
@@ -71,7 +91,6 @@ border-radius:5px;
 	<button class="button" style="width:100%;border-right:2px solid red;">Logout</button></a>
 	</div>
 <?php
-
 $lista="";
 while ($row = mysqli_fetch_array($resultSelLibri)){
 $lista.="<tr>
@@ -84,21 +103,33 @@ $lista.="<tr>
 		<td>{$row['cognome']} </td>
 		<td>{$row['biografia']} </td>
 		<td>
-		<input type=\"radio\" name=\"selezione\" value=\"{$row['titolo']}\" /></td>
+		<input type=\"checkbox\" name=\"selezione[]\" value=\"{$row['titolo']}\" /></td>
 		</tr>\n";
 }
 
  
 ?>
-	<div  style="width:100%;top:50%;border-radius:10px;background-image:url('./immagini/libreria.jpg');background-size:cover;align-items:center;padding-bottom:20%;">
-	<div style="width:98%;background-color:white;border-radius:15px;display:table;">
-	<form action="<?php $_SERVER['PHP_SELF']?>" method="POST">
+
+<div  style="width:100%;top:50%;border-radius:10px;background-image:url('./immagini/libreria.jpg');background-size:cover;align-items:center;padding-bottom:20%;">
+<div style="width:90%;background-color:white;border-radius:15px;display:table;">
 	
-<?php
+<h1 style="color:red;">Libri disponibili</h1>
 
-
-echo "
 <center>
+<form action="<?php $_SERVER['PHP_SELF']?>" method="POST">
+<div style="width:25%;margin-bottom:25px;background-color:white;border:2px solid firebrick;border-radius:15px;">
+<h4 style="color:black;">Ordina per:</h4>
+<input type="radio" name="ordine" value="titolo" />
+<label style="color:black;">titolo</label>
+<input type="radio" name="ordine" value="autore" />
+<label style="color:black;padding-right:25px;">autore</label>
+<input type="submit" name="ordinamento" value="Ordina" class="button" style="background-color:firebrick;color:white;width:25%;font-size:15px;">
+</div>
+</form>
+
+<form action="<?php $_SERVER['PHP_SELF']?>" method="POST">
+<?php
+echo "
 <table style='width:90%;border:0px;'>
 <tr>
 <th>Titolo</th>
