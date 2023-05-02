@@ -78,7 +78,7 @@ if(strcmp($_SESSION['tipologia'],"gestore")==0){
 
 if(strcmp($_SESSION['tipologia'],"admin")==0){
 	echo " <div style='width:100%;padding:0px 0px 0px 0px;'>
-	<a href='' style='width:25%;'>
+	<a href='elencoutenti.php' style='width:25%;'>
 	<button class='button' style='width:100%;border-right:2px solid red;'>Visualizza elenco utenti</button></a>
 	<a href='#'style='width:25%;'>
 	<button class='button' style='width:100%;border-right:2px solid red;'>Ban utente</button></a>
