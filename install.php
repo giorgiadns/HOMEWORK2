@@ -83,6 +83,7 @@ $queryCreateTable="CREATE TABLE IF NOT EXISTS $tab_libro
 				   isbn BIGINT (13) NOT NULL,
 				   anno_pub INT (4) NOT NULL,
 				   trama VARCHAR(5000),
+				   prezzo DOUBLE (5,2),
 				   id_autore INT NOT NULL,
 				   PRIMARY KEY(id),
 				   FOREIGN KEY (id_autore) REFERENCES autore(id));";
@@ -104,6 +105,8 @@ $queryCreateTable="CREATE TABLE IF NOT EXISTS $tab_user
 			   (id INT NOT NULL AUTO_INCREMENT,
 			   username VARCHAR (30) NOT NULL,
 			   password VARCHAR (32) NOT NULL,
+			   nome CHAR (32) NOT NULL,
+			   cognome CHAR (32) NOT NULL,
 			   tipologia VARCHAR(7) NOT NULL,
 			   PRIMARY KEY (id));";
 			   
@@ -124,6 +127,7 @@ $queryCreateTable="CREATE TABLE IF NOT EXISTS $tab_acquisti
 			   (id INT NOT NULL AUTO_INCREMENT,
 			   id_user INT NOT NULL,
 			   id_libro INT NOT NULL,
+			   current_data DATE,
 			   PRIMARY KEY (id),
 			   FOREIGN KEY (id_user) REFERENCES user(id),
 			   FOREIGN KEY (id_libro) REFERENCES libro(id));";
@@ -183,7 +187,7 @@ else{
 }
 
 //POPOLAMENTO TABELLA LIBRO		 
-$queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, id_autore) VALUES
+$queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, prezzo, id_autore) VALUES
 			 (\"Un letto di leoni\", \"9788804679059\", \"1986\", \"Medio Oriente, 1981. 
 			  Tra i monti dell'Afghanistan si trova la Valle dei Cinque Leoni, 
 			  un luogo di antiche leggende ora rifugio di Masud e dei suoi 
@@ -191,7 +195,7 @@ $queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, id_autore) 
 			  trovano compimento i destini incrociati di tre personaggi: un 
 			  americano e un francese che al tempo della Guerra fredda hanno 
 			  combattuto su opposti fronti, e Jane, la donna che li unisce e 
-			  li divide.\", \"1\"),
+			  li divide.\", \"12.35\", \"1\"),
 			  (\"Mille splendidi soli\",\"9788868367312\", \"2007\", \"Mariam vorrebbe 
 			  avere le ali per raggiungere la casa del padre, dove lui non la 
 			  porterà mai perché Mariam è una harami, una bastarda, e sarebbe 
@@ -202,7 +206,7 @@ $queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, id_autore) 
 			  notte della rivoluzione, nell'aprile del 1978. Aveva solo due 
 			  anni quando i suoi fratelli si sono arruolati nella jihad. 
 			  Mariam e Laila non potrebbero essere più diverse, ma la guerra 
-			  le farà incontrare in modo imprevedibile.\", \"2\"),
+			  le farà incontrare in modo imprevedibile.\",  \"13.50\", \"2\"),
 			 (\"Shogun\", \"9788845297588\", \"1975\", \"Partito alla volta dell'Oriente 
 			 per il monopolio olandese del commercio con Cina e Giappone, 
 			 John Blackthorne, comandante dell'Erasmus, si ritrova costretto 
@@ -211,7 +215,7 @@ $queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, id_autore) 
 			 Blackthorne deve trovare il modo di sopravvivere. Grazie al suo coraggio, 
 			 che lo condurrà sulla via dei samurai, con il soprannome di Anjin (il navigatore) 
 			 diventerà il fido aiutante dello Shogun e nella sua ascesa al potere conoscerà 
-			 l'amore impossibile per la bella e ambigua Mariko.\", \"3\"),
+			 l'amore impossibile per la bella e ambigua Mariko.\",  \"15.20\", \"3\"),
 			 (\"Hannibal\", \"9788804444466\", \"1999\", \"Clarice Starling, 7 anni dopo la vicenda 
 			 Lecter (Silenzio degli innocenti), viene messa sotto accusa dagli organi interni 
 			 dell'FBI per un intervento troppo energico durante una sparatoria. In questo 
@@ -220,7 +224,7 @@ $queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, id_autore) 
 			 a Firenze. E' ricercato dall'FBI ma soprattutto da una delle sue vittime, 
 			 il sadico Mason Vergier, costretto da anni su un letto e orrendamente sfigurato 
 			 da Lecter stesso. Turbata dal richiamo di Lecter, Clarice decide di salvarlo dalla 
-			 terribile morte a cui Lecter pare essere predestinato.\", \"4\"),
+			 terribile morte a cui Lecter pare essere predestinato.\",  \"7.99\", \"4\"),
 			  (\"Per niente al mondo\", \"9788804747529\", \"2021\", \"Nel cuore rovente del deserto del 
 			  Sahara, due giovani e intraprendenti agenti segreti – l’americana Tamara Levit e il 
 			  francese Tab Sadoul – sono sulle tracce di un pericoloso gruppo di terroristi islamici, 
@@ -236,7 +240,7 @@ $queryInsert="INSERT INTO $tab_libro (titolo, isbn, anno_pub, trama, id_autore) 
 			  prima donna presidente degli Stati Uniti, deve gestire i rapporti sempre più tesi con i suoi 
 			  oppositori, mentre l’intero pianeta è scosso da un vortice di ostilità politiche, attacchi 
 			  terroristici e dure rappresaglie. La presidente farà tutto il possibile per evitare lo scoppio
-			  di una guerra non necessaria.\", \"1\");";
+			  di una guerra non necessaria.\",  \"25.65\", \"1\");";
 			 
 //Controllo esito queryInsert
 if($result=mysqli_query($mysqliConn,$queryInsert)){
@@ -248,6 +252,7 @@ if($result=mysqli_query($mysqliConn,$queryInsert)){
           <th>ISBN</th> 
 		  <th>Anno pubblicazione</th>
 		  <th>Trama</th>
+		  <th>Prezzo</th>
 		  <th>Id autore</th>
           </tr>";
 	$querySelect="SELECT * FROM $tab_libro;";
@@ -258,7 +263,8 @@ if($result=mysqli_query($mysqliConn,$queryInsert)){
 	echo "<td>" .$row["titolo"] . "</td> \n";
 	echo "<td>" .$row["isbn"] . "</td> \n";
 	echo "<td>" .$row["anno_pub"] . "</td> \n";
-	echo "<td>" .$row["trama"] . "</td> \n";
+	echo "<td>" .$row["trama"] . "</td> \n";	
+	echo "<td>" .$row["prezzo"] . "</td> \n";
 	echo "<td>" .$row["id_autore"] . "</td> \n";
 	echo "</tr>";
 	}
@@ -271,10 +277,13 @@ else{
 }
 
 //POPOLAMENTO TABELLA USER
-$queryInsert="INSERT INTO user (username, password, tipologia) VALUES
-			 ('giorgiadns','giorgiadns','gestore'),
-			 ('marcotemperini','marcotemperini','admin'),
-			 ('topolino','topolino','utente');";
+$queryInsert="INSERT INTO user (username, password, nome, cognome, tipologia) VALUES
+			 ('giorgiadns','giorgiadns','Giorgia','De Nardis','gestore'),
+			 ('marcotemperini','marcotemperini','Marco','Temperini','admin'),
+			 ('topolino','topolino','Mickey','Mouse','utente'),
+			 ('qui','qui','Huey','Duck','utente'),
+			 ('quo','quo','Dewey','Duck','utente'),
+			 ('qua','qua','Louie','Duck','utente');";
 			 
 //Controllo esito queryInsert
 if($result=mysqli_query($mysqliConn,$queryInsert)){
@@ -284,6 +293,8 @@ if($result=mysqli_query($mysqliConn,$queryInsert)){
 		  <th>ID</td>
 		  <th>Username</th>
           <th>Password</th> 
+		   <th>Nome</th> 
+		   <th>Cognome</th> 
 		  <th>Tipologia</th>
           </tr>";
 	$querySelect="SELECT * FROM $tab_user;";
@@ -293,6 +304,8 @@ if($result=mysqli_query($mysqliConn,$queryInsert)){
 	echo "<td>" .$row["id"]. "</td> \n";
 	echo "<td>" .$row["username"] . "</td> \n";
 	echo "<td>" .$row["password"] . "</td> \n";
+	echo "<td>" .$row["nome"] . "</td> \n";
+	echo "<td>" .$row["cognome"] . "</td> \n";
 	echo "<td>" .$row["tipologia"] . "</td> \n";
 	echo "</tr>";
 	}
