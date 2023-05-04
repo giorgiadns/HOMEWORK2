@@ -2,13 +2,18 @@
 
 error_reporting(E_ALL &~E_NOTICE);
 
+//CONNESSIONE
 require_once("./connect.php");
 
 session_start();
 
-if (!isset($_SESSION['accessopermesso'])) header('Location:login.php');
+if (!isset($_SESSION['accessopermesso'])){
+	header('Location:login.php');
+}
 
-$querySelAcquisti="SELECT $tab_libro.titolo, $tab_libro.trama, $tab_libro.prezzo
+//LA QUERY SELEZIONA GLI ACQUISTI (ANCHE PASSATI) EFFETUATI DALL'UTENTE 
+//CONNESSO IN ORDINE DECRESCENTE (DAL PIU' RECENTE AL PIU' VECCHIO)
+$querySelAcquisti="SELECT $tab_libro.titolo, $tab_libro.trama, $tab_libro.prezzo, $tab_acquisti.current_data
 				   FROM $tab_user,$tab_libro,$tab_acquisti
 				   WHERE $tab_user.username=\"{$_SESSION['username']}\"
 				   AND $tab_user.id=$tab_acquisti.id_user
@@ -57,17 +62,19 @@ if(!$resultSelAcquisti=mysqli_query($mysqliConn,$querySelAcquisti)){
 	<div style="width:98%;background-color:white;border-radius:15px;">
 	<h3 style="color:black;">Bentornato <?php echo $_SESSION['username'];?>, ecco i tuoi acquisti finora.</h3>
 	<table style="width:95%;">
-	<tr class="tab">
-	<th class="tab1">Titolo</th>
-	<th class="tab1">Trama</th>
-	<th class="tab1">Prezzo</th>
+	<tr class="tab" height="50px">
+	<th class="tab1" width="25%">Titolo</th>
+	<th class="tab1" width="35%">Trama</th>
+	<th class="tab1"width="20%">Prezzo</th>
+	<th class="tab1"width="20%">Data</th>
 	</tr>
 <?php
 while ($row=mysqli_fetch_assoc($resultSelAcquisti)){
 echo "<tr class='tab2'> \n";
-echo "<td class='tab2'>" .$row["titolo"] . "</td> \n";
-echo "<td class='tab2'>" .$row["trama"] . "</td> \n";
-echo "<td class='tab2'>" .$row["prezzo"] . "</td> \n";
+echo "<td class='tab2' width='25%'>" .$row["titolo"] . "</td> \n";
+echo "<td class='tab2' width='35%'>" .$row["trama"] . "</td> \n";
+echo "<td class='tab2' width='20%'>" .$row["prezzo"] . "</td> \n";
+echo "<td class='tab2' width='20%'>" .$row["current_data"] . "</td> \n";
 
 echo "</tr> \n";}
 
