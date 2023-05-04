@@ -2,6 +2,7 @@
 
 error_reporting(E_ALL &~E_NOTICE);
 
+//CONNESSIONE
 require_once("./connect.php");
 
 session_start();
@@ -38,7 +39,8 @@ if (!isset($_SESSION['accessopermesso'])){
 
 $querySel="SELECT tipologia FROM $tab_user
 		   WHERE username=\"{$_SESSION['username']}\"";
-				  
+	
+	
 if(!$resultSel=mysqli_query($mysqliConn,$querySel)){
 	printf("ERRORE!\n");
 	exit();
@@ -50,6 +52,7 @@ if($row){
 	$_SESSION['tipologia']=$row['tipologia'];
 	}
 
+//OGNI USER VISUALIZZA UN MENU' DIVERSO IN BASE ALLA SUA TIPOLOGIA
 if(strcmp($_SESSION['tipologia'],"utente")==0){
 	echo "<div style='width:100%;padding:0px 0px 0px 0px;'>
 	<a href='libri.php' style='width:25%;'>
