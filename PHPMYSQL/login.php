@@ -2,6 +2,7 @@
 
 error_reporting(E_ALL &~E_NOTICE);
 
+//CONNESSIONE
 require_once("./connect.php");
 
 if(isset($_POST['invio'])){
@@ -25,6 +26,7 @@ if(isset($_POST['invio'])){
 		$row=mysqli_fetch_array($resultSel);
 		
 		if($row){
+			
 			session_start();
 			$_SESSION['username']=$_POST['username'];
 			$_SESSION['dataLogin']=time();
@@ -32,6 +34,7 @@ if(isset($_POST['invio'])){
 			$_SESSION['accessopermesso']=1000;
 			header('Location: start.php');
 			exit();
+			
 		}
 		else {
 			echo "<h3 style='color:red;'>Accesso negato!</h3>";
@@ -136,11 +139,11 @@ if(isset($_POST['invio'])){
 	</tr>
 	</table></span></a>
 	<a href="#" class="tooltip" style="width:25%;">
-	<button class="button" style="width:100%;border-right:2px solid red;">User e privilegi</button>
-	<span class="tooltiptext">Da aggiornare</span></a>
+	<button class="button" style="width:100%;border-right:2px solid red;">Altre informazioni</button>
+	<span class="tooltiptext">L'esercizio è il PHP-16 delle slide lezione-PHP2, con qualche operazione in più rispetto a quelle suggerite.</span></a>
 	<a href="#" class="tooltip" style="width:25%;">
-	<button class="button" style="width:100%;border-right:2px solid red;">Button</button>
-	<span class="tooltiptext">ciao</span></a>
+	<button class="button" style="width:100%;border-right:2px solid red;">Chi siamo</button>
+	<span class="tooltiptext">Giorgia De Nardis - 1939804</span></a>
 	</div>
 	
 	<center>
