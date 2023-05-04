@@ -1,16 +1,19 @@
 <?php
 error_reporting(E_ALL &~E_NOTICE);
 
+//CONNESSIONE
 require_once("./connect.php");
 
 session_start();
 
+//QUI CONTROLLO DI NUOVO CHE L'UTENTE SIA IL GESTORE, PER SICUREZZA
 if ( !(isset($_SESSION['accessopermesso'])) || strcmp($_SESSION['tipologia'],"gestore")!==0){
 
 	header('Location:login.php');
 	
 }
 
+//SELEZIONO TUTTI GLI ACQUISTI EFFETTUATI DAGLI UTENTI
 $querySelAcquisti="SELECT $tab_user.username, $tab_libro.titolo, $tab_autore.nome, $tab_autore.cognome, $tab_libro.prezzo
 				   FROM $tab_acquisti, $tab_user, $tab_libro, $tab_autore
 				   WHERE $tab_user.id=$tab_acquisti.id_user
@@ -81,4 +84,5 @@ echo "</tr> \n";}
 </body>
 
 </html>
+	
 	
