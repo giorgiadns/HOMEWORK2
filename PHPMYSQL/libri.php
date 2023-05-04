@@ -47,7 +47,7 @@ if ((!isset($_SESSION['carrello']) && !$_POST)) {
 	   
 	   //INSERISCO TUTTI I LIBRI SELEZIONATI NEL CARRELLO
 	  foreach($_POST['selezione'] as $k=>$v) {
-     $_SESSION['carrello'][$k] = $_POST['selezione'][$k];
+     $_SESSION['carrello'][] = $_POST['selezione'][$k];
 	 
 	  }
 	  
