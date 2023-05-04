@@ -2,16 +2,19 @@
 
 error_reporting(E_ALL &~E_NOTICE);
 
+//CONNESSIONE
 require_once("./connect.php");
 
 session_start();
 
+//CONTROLLO CHE L'USER CONNESSO NON SIA UN "utente"
 if ( !(isset($_SESSION['accessopermesso'])) || strcmp($_SESSION['tipologia'],"utente")==0){
 
 	header('Location:login.php');
 	
 }
 
+//SELEZIONO TUTTI I LIBRI PRESENTI IN "MAGAZZINO"
 $querySel="SELECT titolo,isbn,anno_pub,trama,prezzo 
 		   FROM $tab_libro
 		   ORDER BY titolo;";
