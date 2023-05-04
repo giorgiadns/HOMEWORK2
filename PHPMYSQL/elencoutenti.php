@@ -6,12 +6,17 @@ require_once("./connect.php");
 
 session_start();
 
+//QUI, PER SICUREZZA, CONTROLLO DI NUOVO CHE L'UTENTE
+//CHE STA ACCEDENDO SIA UN ADMIN
 if ( !(isset($_SESSION['accessopermesso'])) || !strcmp($_SESSION['tipologia'],"admin")==0){
 
 	header('Location:login.php');
 	
 }
 
+
+//LA QUERY SELEZIONA TUTTI GLI USER DI TIPOLOGIA "utente"
+//ORDINATI IN BASE AL COGNOME
 $querySel="SELECT $tab_user.nome, $tab_user.cognome, $tab_user.username
 		   FROM $tab_user
 		   WHERE $tab_user.tipologia='utente'
