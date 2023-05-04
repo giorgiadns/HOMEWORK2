@@ -7,7 +7,7 @@ $tab_autore="autore";
 $tab_user="user";
 $tab_acquisti="acquisti";
 
-//CONNESSIONE
+//CONNESSIONE (STESSO UTENTE DEGLI ESEMPI FORNITI, PER SEMPLICITA')
 $mysqliConn=mysqli_connect("localhost","archer","archer",$db_name);
 
 //CONTROLLO CONNESSIONE
