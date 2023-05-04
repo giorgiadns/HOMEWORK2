@@ -5,6 +5,7 @@ require_once("./connect.php");
 
 session_start();
 
+//CONNESSIONE, CONTROLLO DI NUOVO SE L'UTENTE NON E' IL GESTORE
 if ( !(isset($_SESSION['accessopermesso'])) || strcmp($_SESSION['tipologia'],"gestore")!==0){
 
 	header('Location:login.php');
@@ -68,6 +69,7 @@ if(isset($_POST['inserisci'])){
 				exit();
 			}
 			
+			//La query estrae l'id dell'autore appena inserito
 			$querySelID="SELECT id FROM $tab_autore
 					WHERE nome='{$_POST['nomeaut']}'
 					AND cognome='{$_POST['cognomeaut']}';";
@@ -80,6 +82,7 @@ if(isset($_POST['inserisci'])){
 			$row2=mysqli_fetch_array($resultSelID);
 			$IDaut=$row2['id'];
 					
+			//Inserimento del libro
 			$queryInsertLibro="INSERT INTO $tab_libro (titolo,isbn,anno_pub,trama,prezzo,id_autore) VALUES
 					  ('{$_POST['titolo']}','{$_POST['isbn']}','{$_POST['anno']}','{$_POST['trama']}','{$_POST['prezzo']}','$IDaut');";
 					  
