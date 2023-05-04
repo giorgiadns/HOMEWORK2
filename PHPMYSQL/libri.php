@@ -1,10 +1,12 @@
 <?php
 error_reporting(E_ALL &~E_NOTICE);
 
+//CONNESSIONE
 require_once("./connect.php");
 
 session_start();
 
+//QUI GESTISCO LE PREFERENZE DI ORDINAMENTO DELL'UTENTE
 if (isset($_POST['ordinamento'])){
 	switch ($_POST['ordine']){
     
@@ -20,6 +22,8 @@ if (isset($_POST['ordinamento'])){
 					
 	}
 } else {
+	
+	//SE L'UTENTE NON SELEZIONA NULLA, QUESTO SARA' L'ORDINE DI DEFAULT (IN BASE AL TITOLO)
 	$querySelLibri="SELECT * FROM $tab_libro,$tab_autore
 					WHERE $tab_libro.id_autore=$tab_autore.id
 					ORDER BY $tab_libro.titolo;";
@@ -31,14 +35,22 @@ if(!$resultSelLibri=mysqli_query($mysqliConn,$querySelLibri)){
 	exit();
 }
 
+
 if ((!isset($_SESSION['carrello']) && !$_POST)) {
+	
    $_SESSION['carrello']=array();
    echo "<h3 style='color:red;';>Il carrello &egrave; vuoto </h3>";
+   
 } else {
+	
    if ( isset($_POST['selezione']) && isset($_POST['aggiungi']) ) {
+	   
+	   //INSERISCO TUTTI I LIBRI SELEZIONATI NEL CARRELLO
 	  foreach($_POST['selezione'] as $k=>$v) {
      $_SESSION['carrello'][$k] = $_POST['selezione'][$k];
+	 
 	  }
+	  
 	 echo "<h3 style='color:red;';>Elementi aggiunti al carrello!</h3>";
    }
   
