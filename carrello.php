@@ -1,11 +1,16 @@
 <?php
 error_reporting(E_ALL &~E_NOTICE);
 
+//CONNESSIONE
 require_once("./connect.php");
 
 session_start();
 
-if (!isset($_SESSION['accessopermesso'])) header('Location:login.php');
+if (!isset($_SESSION['accessopermesso'])){ 
+
+	header('Location:login.php');
+	
+}
 
 $totale=0;
 $outputTable="";
@@ -23,6 +28,7 @@ if (!isset($_SESSION['carrello'])) {
 	//Elenco dei libri nel carrello con il relativo prezzo
     foreach ($_SESSION['carrello'] as $k=>$v) {
 	  
+	  //LA QUERY ESTRAE IL PREZZO DI OGNI LIBRO NEL CARRELLO
 	  $querySelPrezzi="SELECT $tab_libro.prezzo FROM $tab_libro
 				WHERE titolo=\"{$_SESSION['carrello'][$k]}\";";
 		
@@ -33,6 +39,7 @@ if (!isset($_SESSION['carrello'])) {
 	
 		$row=mysqli_fetch_array($resultSelPrezzi);
 	
+		//QUI CALCOLO IL TOTALE DA PAGARE
 		if($row) {
 			$prezzo=$row['prezzo'];
 			$totale=$totale+$row['prezzo'];
