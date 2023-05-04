@@ -1,23 +1,36 @@
 <?php
 error_reporting(E_ALL &~E_NOTICE);
 
+//CONNESSIONE
 require_once("./connect.php");
 
 session_start();
+
+//DATA E ZONA DI DEFAULT, SERVE PER L'INSERIMENTO DELLA DATA DELL'ACQUISTO
 date_default_timezone_set('Europe/Rome');
 
-if (!isset($_SESSION['accessopermesso'])) header('Location:login.php');
+if (!isset($_SESSION['accessopermesso'])){
+	
+
+	header('Location:login.php');
+	
+}
 
 if ((!isset($_SESSION['carrello']) && !$_POST) || isset($_POST['svuota'])) {
+	
    $_SESSION['carrello']=array();
    $msg=1;
+   
 } else {
+	
    if ( isset($_POST['paga']) ) {
 	   
 	 $msg=2;
 	  
 	  foreach ($_SESSION['carrello'] as $k=>$v) {
 	  
+	  //LA QUERY ESTRAE LE INFORMAZIONI NECESSARIE
+	  //PER L'INSERIMENTO DELL'ACQUISTO, CON I RELATIVI CONTROLLI
 	  $querySelLibri="SELECT $tab_libro.id FROM $tab_libro
 				WHERE titolo=\"{$_SESSION['carrello'][$k]}\";";
 	  $querySelUser="SELECT $tab_user.id FROM $tab_user
@@ -35,10 +48,13 @@ if ((!isset($_SESSION['carrello']) && !$_POST) || isset($_POST['svuota'])) {
 		$row=mysqli_fetch_array($resultSelLibri);
 		$row2=mysqli_fetch_array($resultSelUser);
 	
+		
 		if($row && $row2) {
 			$IDlibro=$row['id'];
 			$IDuser=$row2['id'];
 			$date = date('Y-m-d');
+			
+			//QUI INSERISCO I DATI DELL'ACQUISTO NELLA TABELLA ACQUISTI
 			$queryInsertAcquisto="INSERT INTO $tab_acquisti (id_user,id_libro, current_data) VALUES
 					  ('$IDuser','$IDlibro','$date');";
 					  
@@ -49,6 +65,7 @@ if ((!isset($_SESSION['carrello']) && !$_POST) || isset($_POST['svuota'])) {
 			
 		}
 	}
+	//SE L'UTENTE HA PAGATO, SVUOTO IL CARRELLO
 	 $_SESSION['carrello']=array(); 
  }
 }
