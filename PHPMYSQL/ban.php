@@ -37,6 +37,43 @@ if (isset($_POST['selezione']) && isset($_POST['ban']) ) {
 		
 		$utentebannato=$_POST['selezione'][$k];
 		
+		//SELEZIONO L'ID DELL'UTENTE SCELTO
+		$querySelect="SELECT id FROM $tab_user 
+					  WHERE username='$utentebannato';";
+					  
+		if(!$resultSel=mysqli_query($mysqliConn,$querySelect)){
+			printf("ERRORE! Impossibile eseguire la querySelect\n");
+			exit();
+		}
+		
+		$row=mysqli_fetch_array($resultSel);
+		
+		if($row) {
+			$id_utentebannato=$row['id'];
+		}
+		else {
+			printf("ERRORE! Impossibile estrarre l'id dell'utente (querySel)\n");
+		}
+		
+		//INSERISCO L'UTENTE BANNATO IN UNA TABELLA DEDICATA,
+		//PER TENERE TRACCIA DEI BAN
+		$queryInsert="INSERT INTO $tab_ban_user (username)
+					  VALUES ('$utentebannato');";
+					  
+		if(!$resultInsert=mysqli_query($mysqliConn,$queryInsert)){
+			printf("ERRORE! Impossibile eseguire la queryInsert \n");
+			exit();
+		}
+		
+		//LA QUERY ELIMINA GLI ACQUISTI DELL'UTENTE BANNATO
+		$queryDelete="DELETE FROM $tab_acquisti
+		WHERE id_user='$id_utentebannato';";
+		
+		if(!$resultDel=mysqli_query($mysqliConn,$queryDelete)){
+			printf("ERRORE! Impossibile eseguire la queryDelete1\n");
+			exit();
+		}
+		
 		//LA QUERY ELIMINA L'UTENTE O GLI UTENTI
 		//SELEZIONATI DALL'ADMIN
 		$queryDelete="DELETE FROM $tab_user
@@ -51,6 +88,7 @@ if (isset($_POST['selezione']) && isset($_POST['ban']) ) {
 	 
 	echo "<h3 style='color:red;';>Utenti bannati con successo!</h3>";
 	header("Refresh:0");
+	
 	}
 
 	  
@@ -103,17 +141,40 @@ echo "<tr> \n";
 echo "<td class='tab2' style='border-radius:0;'>" .$row["nome"] . "</td> \n";
 echo "<td class='tab2' style='border-radius:0;'>" .$row["cognome"] . "</td> \n";
 echo "<td class='tab2' style='border-radius:0;'>" .$row["username"] . "</td> \n";
-echo "<td class='tab2' style='border-radius:0;'><input type=\"checkbox\" name=\"selezione[]\" value=\"{$row['username']}\" /></td>\n";
+echo "<td class='tab2' style='border-radius:0;'><input type=\"checkbox\" name=\"selezione[]\" value=\"{$row["username"]}\" /></td>\n";
 echo "</tr> \n";}
 
 ?>
 	</table>
 
-	<input type="submit" name="ban" value="Banna utenti" class="button" style=" background-color:red;color:white;margin-top:10%;">
+	<input type="submit" name="ban" value="Banna utenti" class="button" style=" background-color:red;color:white;margin-top:10%;margin-bottom:20%;">
 	</form>
+<?php
+	
+	//SELEZIONO TUTTI GLI UTENTI BANNATI
+	$querySelect="SELECT * FROM $tab_ban_user;";
+	
+	if(!$resultSelectBan=mysqli_query($mysqliConn,$querySelect)){
+			printf("ERRORE! Impossibile eseguire la querySelect\n");
+			exit();
+		}
+?>
+<h2 style="width:100%;color:red;">Utenti attualmente bannati</h2>
+<table style="width:80%;font-size:20px;">
+<tr class="tab">
+<th class="tab1">Username</th>
+
+<?php
+	
+while ($row = mysqli_fetch_array($resultSelectBan)){
+	echo"<tr>
+	<td class='tab2'>{$row['username']}</td>
+	</tr>";
+}
+echo "</table>";
+
+?>
 	</div>
 	</div>
-
-
 </body>
 </html>
