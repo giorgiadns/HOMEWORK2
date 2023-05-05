@@ -21,6 +21,8 @@ $tab_libro="libro";
 $tab_autore="autore";
 $tab_user="user";
 $tab_acquisti="acquisti";
+$tab_ban_user="ban_user";
+
 
 //Connessione al db (con lo stesso utente degli esempi per semplicità)
 $mysqliConn=new mysqli("localhost","archer","archer");
@@ -119,6 +121,24 @@ if($result=mysqli_query($mysqliConn,$queryCreateTable)){
 }
 else{
 	printf("ERRORE, la tabella user non è stata creata\n");
+	exit();
+}
+
+//CREAZIONE TABELLA UTENTI BANNATI
+$queryCreateTable="CREATE TABLE IF NOT EXISTS $tab_ban_user
+			   (id INT NOT NULL AUTO_INCREMENT,
+			   username VARCHAR (30) NOT NULL,
+			   PRIMARY KEY (id));";
+			   
+echo "<p>$queryCreateTable</p>";
+
+//Controllo esito queryCreateTable
+if($result=mysqli_query($mysqliConn,$queryCreateTable)){
+	printf("OK, tabella user creata correttamente!\n");
+	echo "<hr />";
+}
+else{
+	printf("ERRORE, la tabella ban_user non è stata creata\n");
 	exit();
 }
 
