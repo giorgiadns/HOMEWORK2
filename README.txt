@@ -19,7 +19,7 @@ la lista dei propri acquisti (sia relativi alla sessione corrente che a quelle
 precedenti).
 
 OPERAZIONI GESTORE: il "gestore" può visualizzare il report del magazzino,
-aggiungere libri e/o autori alla base di dati e visualizzare tutti gli 
+aggiungere libri e autori alla base di dati e visualizzare tutti gli 
 acquisti di ogni utente.
 
 OPERAZIONI ADMIN: l' "admin" può, come il gestore, visualizzare il 
